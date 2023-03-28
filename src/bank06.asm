@@ -297,7 +297,7 @@ call_06_42b9:
     and  A, $7f                                        ;; 06:42c4 $e6 $7f
     bit  6, A                                          ;; 06:42c6 $cb $77
     jr   NZ, .jr_06_42ce                               ;; 06:42c8 $20 $04
-    ldh  [hFFE4], A                                    ;; 06:42ca $e0 $e4
+    ldh  [hSFX], A                                     ;; 06:42ca $e0 $e4
     jr   .jr_06_42d2                                   ;; 06:42cc $18 $04
 .jr_06_42ce:
     and  A, $3f                                        ;; 06:42ce $e6 $3f
@@ -1266,7 +1266,7 @@ call_06_5221:
 jr_06_5231:
     call call_06_5be8                                  ;; 06:5231 $cd $e8 $5b
     ld   A, $0d                                        ;; 06:5234 $3e $0d
-    ldh  [hFFE0], A                                    ;; 06:5236 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 06:5236 $e0 $e0
     ld   A, $32                                        ;; 06:5238 $3e $32
     call call_06_5a71                                  ;; 06:523a $cd $71 $5a
     jp   jp_06_5e1b                                    ;; 06:523d $c3 $1b $5e
@@ -1289,7 +1289,7 @@ call_06_5240:
     ret  NZ                                            ;; 06:525b $c0
     call call_06_4423                                  ;; 06:525c $cd $23 $44
     ld   A, $0c                                        ;; 06:525f $3e $0c
-    ldh  [hFFE0], A                                    ;; 06:5261 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 06:5261 $e0 $e0
     ld   A, $31                                        ;; 06:5263 $3e $31
     call call_06_5a71                                  ;; 06:5265 $cd $71 $5a
     call call_06_51c9                                  ;; 06:5268 $cd $c9 $51

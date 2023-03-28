@@ -515,7 +515,7 @@ jp_00_0224:
     jr   NZ, .jr_00_02a0                               ;; 00:02d0 $20 $ce
     ld   A, $07                                        ;; 00:02d2 $3e $07
     rst  switchBank                                    ;; 00:02d4 $ef
-    call call_07_4000 ;@bank 7                         ;; 00:02d5 $cd $00 $40
+    call initSoundEngine ;@bank 7                      ;; 00:02d5 $cd $00 $40
     ld   A, $05                                        ;; 00:02d8 $3e $05
     ld   HL, $4e40                                     ;; 00:02da $21 $40 $4e
     ld   DE, wC800                                     ;; 00:02dd $11 $00 $c8
@@ -1225,7 +1225,7 @@ call_00_06db:
     ld   A, $07                                        ;; 00:06dc $3e $07
     rst  switchBank                                    ;; 00:06de $ef
     push AF                                            ;; 00:06df $f5
-    call call_07_4003 ;@bank 7                         ;; 00:06e0 $cd $03 $40
+    call runSoundEngine ;@bank 7                       ;; 00:06e0 $cd $03 $40
     pop  AF                                            ;; 00:06e3 $f1
     rst  switchBank                                    ;; 00:06e4 $ef
     push BC                                            ;; 00:06e5 $c5
@@ -3399,7 +3399,7 @@ jp_00_1996:
 .jr_00_19bc:
     push BC                                            ;; 00:19bc $c5
     ld   A, $17                                        ;; 00:19bd $3e $17
-    ld_long_store hFFE4, A                             ;; 00:19bf $ea $e4 $ff
+    ld_long_store hSFX, A                              ;; 00:19bf $ea $e4 $ff
     ld   A, [wC5BD]                                    ;; 00:19c2 $fa $bd $c5
     add  A, $04                                        ;; 00:19c5 $c6 $04
     ld   L, A                                          ;; 00:19c7 $6f
@@ -3544,7 +3544,7 @@ jp_00_1ac7:
     jr   NZ, .jr_00_1adf                               ;; 00:1acd $20 $10
     bit  6, A                                          ;; 00:1acf $cb $77
     jr   NZ, .jr_00_1ad8                               ;; 00:1ad1 $20 $05
-    ldh  [hFFE0], A                                    ;; 00:1ad3 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 00:1ad3 $e0 $e0
     jp   jp_00_1ab8                                    ;; 00:1ad5 $c3 $b8 $1a
 .jr_00_1ad8:
     sub  A, $40                                        ;; 00:1ad8 $d6 $40
@@ -3552,7 +3552,7 @@ jp_00_1ac7:
     jp   jp_00_1ab8                                    ;; 00:1adc $c3 $b8 $1a
 .jr_00_1adf:
     sub  A, $80                                        ;; 00:1adf $d6 $80
-    ldh  [hFFE4], A                                    ;; 00:1ae1 $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:1ae1 $e0 $e4
     jp   jp_00_1ab8                                    ;; 00:1ae3 $c3 $b8 $1a
 
 jp_00_1ae6:
@@ -4919,7 +4919,7 @@ jr_00_231b:
     ld   [wC5E2], A                                    ;; 00:2349 $ea $e2 $c5
     ld   B, A                                          ;; 00:234c $47
     ld   A, [HL+]                                      ;; 00:234d $2a
-    ld_long_store hFFE0, A                             ;; 00:234e $ea $e0 $ff
+    ld_long_store hCurrentMusic, A                     ;; 00:234e $ea $e0 $ff
     call call_00_2616                                  ;; 00:2351 $cd $16 $26
     rlc  B                                             ;; 00:2354 $cb $00
     jr   C, .jr_00_2373                                ;; 00:2356 $38 $1b
@@ -5516,7 +5516,7 @@ jr_00_26fe:
     jp   jp_00_26a9                                    ;; 00:270b $c3 $a9 $26
 .jr_00_270e:
     ld   A, $15                                        ;; 00:270e $3e $15
-    ldh  [hFFE4], A                                    ;; 00:2710 $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:2710 $e0 $e4
     call call_00_01ad                                  ;; 00:2712 $cd $ad $01
     jp   jp_00_26a9                                    ;; 00:2715 $c3 $a9 $26
 
@@ -5696,7 +5696,7 @@ jp_00_2799:
     call call_00_2586                                  ;; 00:2850 $cd $86 $25
 .jr_00_2853:
     ld   A, $0c                                        ;; 00:2853 $3e $0c
-    ldh  [hFFE4], A                                    ;; 00:2855 $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:2855 $e0 $e4
     call call_00_1779                                  ;; 00:2857 $cd $79 $17
     jr   .jr_00_2820                                   ;; 00:285a $18 $c4
 .jr_00_285c:
@@ -5713,7 +5713,7 @@ jp_00_2799:
     xor  A, A                                          ;; 00:2870 $af
     ldh  [rSCX], A                                     ;; 00:2871 $e0 $43
     ldh  [rSCY], A                                     ;; 00:2873 $e0 $42
-    ldh  [hFFE0], A                                    ;; 00:2875 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 00:2875 $e0 $e0
     call call_00_14db                                  ;; 00:2877 $cd $db $14
     ld   A, $0a                                        ;; 00:287a $3e $0a
     call call_00_2669                                  ;; 00:287c $cd $69 $26
@@ -5723,7 +5723,7 @@ jp_00_2799:
     ld   A, B                                          ;; 00:2881 $78
     call call_00_2ab6                                  ;; 00:2882 $cd $b6 $2a
     ld   A, $0c                                        ;; 00:2885 $3e $0c
-    ldh  [hFFE4], A                                    ;; 00:2887 $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:2887 $e0 $e4
     call call_00_1793                                  ;; 00:2889 $cd $93 $17
     pop  BC                                            ;; 00:288c $c1
     dec  B                                             ;; 00:288d $05
@@ -5734,7 +5734,7 @@ jp_00_2799:
     call call_00_14e8                                  ;; 00:2897 $cd $e8 $14
     call call_00_23fe                                  ;; 00:289a $cd $fe $23
     ld   A, $01                                        ;; 00:289d $3e $01
-    ldh  [hFFE0], A                                    ;; 00:289f $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 00:289f $e0 $e0
     ldh  A, [hFFC7]                                    ;; 00:28a1 $f0 $c7
     ldh  [rSCY], A                                     ;; 00:28a3 $e0 $42
     ldh  A, [hFFC8]                                    ;; 00:28a5 $f0 $c8
@@ -6724,7 +6724,7 @@ jp_00_2ea2:
     call call_00_2cb1                                  ;; 00:2f13 $cd $b1 $2c
     call call_00_2f40                                  ;; 00:2f16 $cd $40 $2f
     ld   A, $15                                        ;; 00:2f19 $3e $15
-    ldh  [hFFE4], A                                    ;; 00:2f1b $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:2f1b $e0 $e4
     ld   DE, $2e                                       ;; 00:2f1d $11 $2e $00
     call call_00_2f29                                  ;; 00:2f20 $cd $29 $2f
     call call_00_3cf7                                  ;; 00:2f23 $cd $f7 $3c
@@ -6937,7 +6937,7 @@ jp_00_3023:
     ld   HL, wCC90                                     ;; 00:3087 $21 $90 $cc
     call call_00_32d2                                  ;; 00:308a $cd $d2 $32
     ld   A, $17                                        ;; 00:308d $3e $17
-    ldh  [hFFE4], A                                    ;; 00:308f $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:308f $e0 $e4
     jp   .jp_00_3041                                   ;; 00:3091 $c3 $41 $30
 
 call_00_3094:
@@ -7099,7 +7099,7 @@ jp_00_312c:
     ld   [HL], A                                       ;; 00:31aa $77
     call call_00_31da                                  ;; 00:31ab $cd $da $31
     ld   A, $17                                        ;; 00:31ae $3e $17
-    ldh  [hFFE4], A                                    ;; 00:31b0 $e0 $e4
+    ldh  [hSFX], A                                     ;; 00:31b0 $e0 $e4
     call call_00_3cf7                                  ;; 00:31b2 $cd $f7 $3c
     jp   jp_00_3023                                    ;; 00:31b5 $c3 $23 $30
     db   $06, $3c                                      ;; 00:31b8 ??

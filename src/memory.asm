@@ -900,10 +900,10 @@ hFFD8:
 hFFDE:
     ds 2                                               ;; ffde
 
-hFFE0:
+hCurrentMusic:
     ds 1                                               ;; ffe0
 
-hFFE1:
+hPlayingMusic:
     ds 1                                               ;; ffe1
 
 hFFE2:
@@ -912,7 +912,7 @@ hFFE2:
 hFFE3:
     ds 1                                               ;; ffe3
 
-hFFE4:
+hSFX:
     ds 2                                               ;; ffe4
 
 hFFE6:

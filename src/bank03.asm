@@ -2283,7 +2283,7 @@ call_03_7d08:
     jr   Z, .jr_03_7d24                                ;; 03:7d16 $28 $0c
     ld   B, A                                          ;; 03:7d18 $47
     push HL                                            ;; 03:7d19 $e5
-    ld   HL, hFFE4                                     ;; 03:7d1a $21 $e4 $ff
+    ld   HL, hSFX                                      ;; 03:7d1a $21 $e4 $ff
     add  HL, DE                                        ;; 03:7d1d $19
     ld   E, L                                          ;; 03:7d1e $5d
     ld   D, H                                          ;; 03:7d1f $54
@@ -2353,7 +2353,7 @@ jp_03_7d50:
 .jr_03_7d93:
     call call_00_01a1                                  ;; 03:7d93 $cd $a1 $01
     ld   A, $0e                                        ;; 03:7d96 $3e $0e
-    ldh  [hFFE0], A                                    ;; 03:7d98 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 03:7d98 $e0 $e0
     rst  rst_00_0010                                   ;; 03:7d9a $d7
     rst  rst_00_0018                                   ;; 03:7d9b $df
     ld   A, $c3                                        ;; 03:7d9c $3e $c3
@@ -2491,9 +2491,9 @@ jp_03_7e4a:
 .jr_03_7e83:
     ld   HL, wC3DA                                     ;; 03:7e83 $21 $da $c3
     ld   A, [HL+]                                      ;; 03:7e86 $2a
-    ldh  [hFFE0], A                                    ;; 03:7e87 $e0 $e0
+    ldh  [hCurrentMusic], A                            ;; 03:7e87 $e0 $e0
     ld   A, [HL]                                       ;; 03:7e89 $7e
-    ldh  [hFFE4], A                                    ;; 03:7e8a $e0 $e4
+    ldh  [hSFX], A                                     ;; 03:7e8a $e0 $e4
     jr   .jr_03_7e67                                   ;; 03:7e8c $18 $d9
 .jr_03_7e8e:
     call call_03_7e11                                  ;; 03:7e8e $cd $11 $7e
